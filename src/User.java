@@ -1,9 +1,8 @@
 /**
- * Just like last time, the ATM class is responsible for managing all
- * of the user interaction. This means login procedures, displaying the
- * menu, and responding to menu selections. In the enhanced version, the
- * ATM class will have the added responsibility of interfacing with the
- * Database class to write and read information to and from the database.
+ * Just like last time, the User class is responsible for retrieving
+ * (i.e., getting), and updating (i.e., setting) user information.
+ * This time, though, you'll need to add the ability to update user
+ * information and display that information in a formatted manner.
  * 
  * Most of the functionality for this class should have already been
  * implemented last time. You can always reference my Github repository
@@ -11,47 +10,93 @@
  */
 
 import java.util.Scanner;
-public class ATM extends BankAccount {
-    private static Scanner input;
-    
-    public ATM(float balance, long accountNumber, double deposit, double withdraw, int pin, int phone, String firstName, String lastName, int ssn, String birthdate, String address) {
-        super(balance, accountNumber, deposit, withdraw, firstName, lastName, pin, phone, ssn, birthdate, address);
-    }
-    
-    Scanner input1 = new Scanner(System.in);
-    public static void main(String[] args) {
-        menu();
-        input.close();
-    }
-    
-    public static void menu() {
-        User.getFirstName();
-    	System.out.println("Hello, " + User.getFirstName() + "." + "\nPress d to deposit, w to withdraw, b to show balance, and e to exit your account.");
-        char option = input.nextChar();
-            if (BankAccount.getAccountNumber() == true) {
-            User.getPin();
-            while (option != 'e') {
-                if (User.getPin() == true) {
-                    if (option = 'd') {
-                        BankAccount.setDeposit();
-                    }
-                    else if (option = 'w') {
-                        BankAccount.setWithdraw();
-                    }
-                    else if (option = 'b') {
-                        BankAccount.setBalance();
-                    }
-                    else {
-                        System.out.println("Not valid command.");
-                    }
-                }
-                if (option == 'e') {
-                    System.out.println("Thank you and have a good day, " + User.getFirstName());
-                }
-                else {
-                System.out.println("Enter correct pin.");
-                }
-            }        
-        }
-    }
+public class User {
+	Scanner in = new Scanner(System.in);
+	private static String firstName;
+	private static String lastName;
+	private int pin;
+	private String birthdate;
+	private int phone;
+	private int ssn;
+	private String address;
+	
+	public User (String firstName, String lastName, int pin, int phone, String birthdate, int ssn, String address) {
+	
+	}
+	
+	public int getPhone() {
+	    return phone;
+	}
+	
+	public static String getFirstName() {
+	    return firstName;
+	}
+	
+	public static String getLastName() {
+		return lastName;
+	}
+	
+	public String getBirthdate() {
+	    return birthdate;
+	}
+	
+	public int getSsn() {
+	    return ssn;
+	}
+	
+	public String getAddress() {
+	    return address;
+	}
+	
+	public int setPin() {
+	    System.out.println("Enter pin: ");
+	    pin = in.nextInt();
+	    while (Integer.toString(pin).length() == 4) {
+	    	if (Integer.toString(pin).length() != 4) {
+	    		System.out.println("Pin must be 4 digits long.");
+	    	}
+	    	else if (Integer.toString(pin).length() == 0) {
+		    	System.out.println("Enter a pin number.");
+	    	}
+	    	else if (pin != setPin()) {
+	    		System.out.println("Incorrect pin.");	
+	    	}
+	    }
+	    return pin;
+	}
+	
+	public void updatePin() {
+		System.out.println("Current pin: ");
+		int reset = in.nextInt();
+		while (reset != pin) {
+			System.out.println("New pin: ");
+			pin = in.nextInt();
+		}
+	}
+	
+	public void setPhone(int phone) {
+	    this.phone = phone;
+	}
+	
+	public void setFirstName(String firstName) {
+		System.out.println("Enter first name: ");
+		firstName = in.nextLine();
+	}
+	
+	public void setLastName(String lastName) {
+		System.out.println("Enter last name: ");
+		lastName = in.nextLine();
+	}
+	
+	public void setBirthdate(String birthdate) {
+	    this.birthdate = birthdate;
+	}
+	
+	public void setSsn(int ssn) {
+	    this.ssn = ssn;
+	}
+	
+	public void setAddress(String address) {
+	    this.address = address;
+	}
 }
