@@ -72,6 +72,7 @@ public class User {
 			System.out.println("New pin: ");
 			pin = in.nextInt();
 		}
+		reset = pin;
 	}
 	
 	public void setPhone(int phone) {
@@ -98,5 +99,17 @@ public class User {
 	
 	public void setAddress(String address) {
 	    this.address = address;
+	}
+	
+	public void updateAddress() {
+		System.out.println("Enter house/apartment number: ");
+		int houseNum = in.nextInt();
+		System.out.println("Enter street name: ");
+		String street = in.nextLine();
+		System.out.println("Enter city name: ");
+		String city = in.nextLine();
+		System.out.println("Enter zip code: ");
+		int zip = in.nextInt();
+		System.out.println("Confirm address: " + houseNum + " \n" + street + ", " + city + " " + zip);
 	}
 }
