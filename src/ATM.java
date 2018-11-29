@@ -10,6 +10,52 @@
  * for inspiration (https://github.com/rwilson-ucvts/java-sample-atm).
  */
 
-public class ATM {
-	
+import java.util.Scanner;
+public class ATM extends BankAccount {
+    Scanner in = new Scanner(System.in);
+    private BankAccount account;
+    
+    public ATM(BankAccount account, float balance, String accountOwner, long accountNumber, double withdraw, double deposit, String firstName, int pin) {
+        super(balance, accountNumber, accountOwner, deposit, withdraw, firstName, pin);
+    }
+    
+    public BankAccount getAccount() {
+    	return account;
+    }
+    
+    
+    
+    public static void menu() {
+        User.getFirstName();
+    	System.out.println("Hello, " + User.getFirstName() + ". " + "Press i to edit account information, b to see balance, w to withdraw, d to deposit, and e to exit.");
+        char option = in.nextChar();
+        //if (BankAccount.getAccountNumber() ) {
+            User.getPin();
+            while (option != 'e') {
+                if (User.getPin() == true) {
+                    if (option == 'd') {
+                        BankAccount.setDeposit();
+                    }
+                    else if (option == 'w') {
+                        BankAccount.setWithdraw();
+                    }
+                    else if (option == 'b') {
+                        BankAccount.setBalance();
+                    }
+                    else if (option == 'i') {
+                    	System.out.println("What information would you like to edit? Press a for address and p for pin");
+                    }
+                    else {
+                        System.out.println("Not valid command.");
+                    }
+                }
+                if (option == 'e') {
+                    System.out.println("Thank you and have a good day, " + User.getFirstName());
+                }
+                else {
+                System.out.println("Enter correct pin.");
+                }
+            }        
+        }
+    }
 }
