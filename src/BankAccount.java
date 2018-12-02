@@ -98,9 +98,11 @@ public class BankAccount extends User {
     	else if (amount <= 0) {
     		return 1;
     	}
-    	
-    	else if (User.) {
-    		return 2;
-    	}
+	else if (accountNumber == null) {
+		return 2;
+	}
+	else {
+		balance = (float) (balanace - amount);
+	}
     }
 }
