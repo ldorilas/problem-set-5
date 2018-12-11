@@ -10,31 +10,31 @@
  * for inspiration (https://github.com/rwilson-ucvts/java-sample-atm).
  */
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
-public class ATM extends BankAccount {
-    Scanner in = new Scanner(System.in);
+public class ATM extends Database {
+    static Scanner in = new Scanner(System.in);
     private BankAccount account;
     
-    public ATM(BankAccount account, float balance, String accountOwner, long accountNumber, double withdraw, double deposit, String firstName, int pin) {
-        super(balance, accountNumber, accountOwner, deposit, withdraw, firstName, pin);
+    public ATM(String path, float balance, long accountNumber, String accountOwner, double withdraw, double deposit, double transfer, String firstName, String lastName, int pin, int phone, String birthdate, int ssn, String address) throws FileNotFoundException, IOException {
+        super(path, balance, accountNumber, accountOwner, withdraw, deposit, transfer, firstName, lastName, pin, phone, birthdate, ssn, address);
     }
     
     public BankAccount getAccount() {
     	return account;
     }
     
-    
-    
     public static void menu() {
         User.getFirstName();
     	System.out.println("Hello, " + User.getFirstName() + ". " + "Press i to edit account information, b to see balance, w to withdraw, d to deposit, and e to exit.");
-        char option = in.nextChar();
-        //if (BankAccount.getAccountNumber() ) {
+        char option = in.next();
+        if (BankAccount.getAccountNumber() == true) {
             User.getPin();
             while (option != 'e') {
                 if (User.getPin() == true) {
                     if (option == 'd') {
-                        BankAccount.setDeposit();
+                        BankAccount.getDeposit();
                     }
                     else if (option == 'w') {
                         BankAccount.setWithdraw();
