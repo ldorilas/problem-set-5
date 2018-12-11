@@ -112,4 +112,4 @@ public class User {
 		int zip = in.nextInt();
 		System.out.println("Confirm address: " + houseNum + " \n" + street + ", " + city + " " + zip);
 	}
-}
+} 
