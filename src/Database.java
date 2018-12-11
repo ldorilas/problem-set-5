@@ -25,11 +25,7 @@ public class Database extends BankAccount {
 		this.path = path;
 		this.accounts = getAllAccounts();
 	}
-	
-	public void login() {
-		
-	}
-	
+
 	/**
 	 * Initializes the database with all accounts.
 	 * 
@@ -90,6 +86,18 @@ public class Database extends BankAccount {
 	public void updateAccount(BankAccount account, BankAccount destination) throws IOException {
 		boolean newAccount = true;
 		
+		public static void updatePin() {
+			System.out.println("Current pin: ");
+			int tempPin = in.nextInt();
+			boolean isCorrect = Database.setPin();
+			if (isCorrect == true) {
+				System.out.println("New pin: ");
+				newPin = in.nextInt();
+				if (User.setPin(newPin) == true) {
+					
+				}
+			}
+		}
 		
 		for (int i = 0; i < accounts.length; i++) {			
 			if (accounts[i].startsWith(String.valueOf(BankAccount.getAccountNumber()))) {
@@ -133,7 +141,6 @@ public class Database extends BankAccount {
 				max = accountNumber;
 			}
 		}
-		
 		return max;
 	}
 }
