@@ -11,7 +11,7 @@
 public class BankAccount extends User {
 	private static long generatedAccountNumber = 100000001L;
 	private float balance;
-    private long accountNumber;
+    private static long accountNumber;
     private String accountOwner;
     private double withdraw;
     private double deposit;
@@ -19,7 +19,7 @@ public class BankAccount extends User {
     public BankAccount (float balance, long accountNumber, String accountOwner, double withdraw, double deposit, double transfer, String firstName, String lastName, int pin, int phone, String birthdate, int ssn, String address) {
         super(firstName, lastName, pin, phone, birthdate, ssn, address);
         this.balance = balance;
-        this.accountNumber = BankAccount.generatedAccountNumber++;
+        BankAccount.accountNumber = BankAccount.generatedAccountNumber++;
         this.withdraw = withdraw;
         this.deposit = deposit;
     }
@@ -28,7 +28,7 @@ public class BankAccount extends User {
         return balance;
     }
     
-    public long getAccountNumber() {
+    public static long getAccountNumber() {
         return accountNumber;
     }
     
@@ -49,7 +49,7 @@ public class BankAccount extends User {
     }
     
     public void setAccountNumber(long accountNumber) {
-        this.accountNumber = accountNumber;
+        BankAccount.accountNumber = accountNumber;
     }
     
     public void setAccountOwner(String accountOwner) {
@@ -88,21 +88,5 @@ public class BankAccount extends User {
             balance = (float) (balance - amount);
             return 2;
         }
-    }
-    
-    public float transfer(double amount) {
-    	if (amount > balance) {
-    		return 0;
-    	}
-    	
-    	else if (amount <= 0) {
-    		return 1;
-    	}
-	else if (accountNumber == null) {
-		return 2;
-	}
-	else {
-		balance = (float) (balanace - amount);
-	}
     }
 }
