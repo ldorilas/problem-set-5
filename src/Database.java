@@ -19,11 +19,16 @@ public class Database extends BankAccount {
 	
 	private String path;
 	private String[] accounts;
+	private static FileReader fr;
+	private static BufferedReader br;
+	private static BufferedWriter write;
 	
-	public Database(String path, float balance, long accountNumber, String accountOwner, double withdraw, double deposit, double transfer, String firstName, String lastName, int pin, int phone, String birthdate, int ssn, String address) throws FileNotFoundException, IOException {
+	public Database(String[] accounts, FileReader freader, BufferedReader breader, BufferedWriter write, String path, float balance, long accountNumber, String accountOwner, double withdraw, double deposit, double transfer, String firstName, String lastName, int pin, int phone, String birthdate, int ssn, String address) throws FileNotFoundException, IOException {
 		super(balance, accountNumber, accountOwner, withdraw, deposit, transfer, firstName, lastName, pin, phone, birthdate, ssn, address);
 		this.path = path;
 		this.accounts = getAllAccounts();
+		this.freader = freader;
+		this.breader = breader;
 	}
 
 	/**
@@ -83,6 +88,72 @@ public class Database extends BankAccount {
 	 * @throws IOException 
 	 */
 	
+	public static void deactivate() {
+		System.out.println("Are you sure you want to deactivate your account? Enter 'y' or 'n'.");
+		String temp = in.nextLine();
+		char choice = temp.charAt(0);
+		switch (choice) {
+		case 'no':
+			break;
+		case 'yes':
+			try {
+				freader = new FileReader("src\\accounts-db.txt");
+				breader = new BufferedReader(freader);
+				String line;
+				for (int i = 0; i < accounts.length; i++) {
+					line = breader.readLine();
+					if (line.contains(User.getLastName())) {
+						accounts[i] = line.substring(0, 145) + "N";
+					}
+				}
+				writer = new BufferedWriter(new FileWriter("src\\accounts-db.txt"));
+				for(int i = 0; i < accounts.length; i++) {
+					if (i == (accounts.length - 1)) {
+						write.write(accounts[i]);
+					}
+					else {
+						write.write(accounts[i]);
+						write.newLine();
+					}
+				}
+				write.flush();
+				write.close();
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("File not found.");
+			}
+			catch (IOException e) {
+				System.out.println("Cannot read file!");
+			}
+			finally {
+				if (breader != null) {
+					try {
+						breader.close();
+					}
+					catch (IOException e) { 
+						/* ensure close */ 
+					}
+				}
+				if (freader != null) {
+					try {
+						freader.close();
+					}
+					catch (IOException e) { 
+						/* ensure close */ 
+					}
+				}
+				if (write != null) {
+					try {
+						write.close();
+					}
+					catch (IOException e) { 
+						/* ensure close */ 
+					}
+				}
+			}
+			System.out.println("Account deactivated.");
+		}
+	}
 	public void updateAccount(BankAccount account, BankAccount destination) throws IOException {
 		boolean newAccount = true;
 		
@@ -122,6 +193,116 @@ public class Database extends BankAccount {
 				bw.write(acct);
 				bw.newLine();
 			}
+		}
+	}
+	
+	public static void createAccount() {
+		long temporaryAcctnum = 100000001;
+		while (checkAccountNumber(temporaryAcctnum) == true) {
+			temporaryAcctnum++;
+		}
+		String Acctnum = Long.toString(temporaryAcctnum);
+		System.out.println("Enter the pin you want: ");
+		int newPin = in.nextInt();
+		if (String.valueOf(newPin).length() == 4) {
+			String pin = String.valueOf(newPin);
+			in.nextLine();
+			System.out.println("Enter year of birth: ");
+			String year = in.nextLine();
+			if (year.length() == 4) {
+				System.out.println("Enter month of birth: ");
+				String month = in.nextLine();
+				if (month.length() == 2) {
+					System.out.println("Enter day of birth: ");
+					String day = in.nextLine();
+					String newbirthdate = year + month + day;
+					System.out.println("\nEnter phone number: ");
+					String newphone= in.nextLine();
+					if (newphone.length() == 10) {
+						System.out.println("Please enter street address: ");
+						String newstreet= in.nextLine();
+						System.out.println("\nPlease enter city.");
+						String newcity = in.nextLine();
+						System.out.println("\nPlease enter state abbreviation.");
+						String newstate = in.nextLine();
+						System.out.println("\nPlease enter zip code.");
+						String newzip = in.nextLine();
+						while (newstreet.length() != 30) {
+							newstreet = newstreet + " ";
+						}
+						while (newcity.length() != 30) {
+							newcity = newcity + " ";
+						}
+						String newaddress = newsteret + newcity + newstate + newzipcode;
+						String newname = User.getLastName() + ", " + User.getFirstName();
+						while (newname.length() != 32) {
+							newname = newname + " ";
+						}
+						try {
+							freader = new FileReader("src\\accounts-db.txt");
+							breader = new BufferedReader(freader);
+							writer = new BufferedWriter(new FileWriter("src\\accounts-db.txt"));
+							String out = Acctnum + newpin + "0.00           " + newname + newbirthdate + newphone + newaddress + "Y";
+							for(int i = 0; i < (accounts.length + 1); i++) {
+								if (i == (accounts.length)) {
+									write.write(output);
+								}
+								else {
+									write.write(accounts[i]);
+									write.newLine();
+								}
+							}
+							write.flush();
+							write.close();
+						}
+						catch (FileNotFoundException e) {
+							System.out.println("Could not find");
+						}
+						catch (IOException e) {
+							System.out.println("Error");
+						}
+						finally {
+							if (breader != null) {
+								try {
+									breader.close();
+								}
+								catch (IOException e) { 
+									/* ensure close */ 
+								}
+							}
+							if (freader != null) {
+								try {
+									freader.close();
+								}
+								catch (IOException e) { 
+									
+								}
+							}
+							if (write != null) {
+								try {
+									write.close();
+								}
+								catch (IOException e) { 
+								
+								}
+							}
+						}
+						System.out.println("New account successfully cerated.");
+					}
+					else {
+						System.out.println("Invalid phone number.");
+					}
+				}
+				else {
+					System.out.println("Invalid month.");
+				}
+			}
+			else {
+				System.out.println("Invalid year.");
+			}
+		}
+		else {
+			System.out.println("Invalid pin.");
 		}
 	}
 	
